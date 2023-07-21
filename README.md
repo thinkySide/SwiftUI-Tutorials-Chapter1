@@ -4,4 +4,4 @@
 ## SwiftUI Essentials
 - ✅ ~~Creating and Combining Views~~ (23.07.21)
 - ✅ ~~Building Lists and Navigaion~~ (23.07.21)
-- Handling User Input
+- ✅ ~~Handling User Input~~ (23.07.21)
