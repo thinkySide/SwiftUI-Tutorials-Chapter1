@@ -9,7 +9,10 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
-struct Landmark: Hashable, Codable {
+struct Landmark: Hashable, Codable, Identifiable {
+    
+    // Identifiable 프로토콜은 id 프로퍼티가 있어야 함.
+    
     var id: Int
     var name: String
     var park: String
