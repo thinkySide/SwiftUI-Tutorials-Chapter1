@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import Combine
 
-var landmarks: [Landmark] = load("landmarkData.json")
+final class ModelData: ObservableObject {
+    
+    // @Published 어트리뷰트를 추가해줌으로써 데이터의 변경을 감지한다.
+    @Published var landmarks: [Landmark] = load("landmarkData.json")
+}
 
 func load<T: Decodable>(_ fileName: String) -> T {
     let data: Data

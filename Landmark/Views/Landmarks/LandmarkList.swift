@@ -9,6 +9,13 @@ import SwiftUI
 
 struct LandmarkList: View {
     
+    @EnvironmentObject var modelData: ModelData
+    @State private var showFavoritesOnly = false
+    
+    var filteredLandmarks: [Landmark] {
+        modelData.landmarks.filter { !showFavoritesOnly || $0.isFavorite }
+    }
+    
     var body: some View {
         
         // MARK: - [첫번째 방법] List 생성 : KeyPath 이용 방법
@@ -30,12 +37,18 @@ struct LandmarkList: View {
         // 따로 KeyPath(id)를 작성하지 않아줘도 됨.
         // (이미 Unique한 값이라는 context가 있기 때문)
         NavigationView {
-            List(landmarks) { landmark in
-                NavigationLink {
-                    // Destination
-                    LandmarkDetail(landmark: landmark)
-                } label: {
-                    LandmarkRow(landmark: landmark)
+            List {
+                Toggle(isOn: $showFavoritesOnly) {
+                    Text("Favorites only")
+                }
+                
+                ForEach(filteredLandmarks) { landmark in
+                    NavigationLink {
+                        // Destination
+                        LandmarkDetail(landmark: landmark)
+                    } label: {
+                        LandmarkRow(landmark: landmark)
+                    }
                 }
             }
             .navigationTitle("Landmarks") // List에다가 달아줘야함!
@@ -60,8 +73,7 @@ struct LandmarkList_Previews: PreviewProvider {
         
         ForEach(devices, id: \.self) { deviceName in
             LandmarkList()
-                .previewDevice(PreviewDevice(rawValue: deviceName))
-                .previewDisplayName(deviceName)
+                .environmentObject(ModelData())
         }
         
         // 상단 Scheme 메뉴에서 rawValue 확인이 가능하다. (없는 건 안댐)
